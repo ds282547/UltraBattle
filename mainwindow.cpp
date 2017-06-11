@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     for(int i=0;i<=10;i++){
         myCardDeck.append(new CardDeckItem(i,1));
     }
+    magicStone = 14;
     init();
     player.setMedia(QUrl("qrc:/snd/sound/open_bgm.mp3"));
     player.play();
@@ -50,7 +51,7 @@ void MainWindow::init(){
 
     connect(ui->pushButtonHidden,SIGNAL(clicked(bool)),this,SLOT(hidden()));
     //magic stone
-    magicStone = 14;
+
     ui->labelStone->setText(QString("%1").arg(magicStone));
     ui->label_3->setPixmap(QPixmap(":/gameui/pic/stone.png").scaled(30,30,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
     ui->label_stone0->setPixmap(QPixmap(":/gameui/pic/stone.png").scaled(35,35,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));

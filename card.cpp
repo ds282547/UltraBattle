@@ -82,7 +82,7 @@ void Card::paint(QPainter *painter,const QStyleOptionGraphicsItem *option, QWidg
 
 void Card::mousePressEvent(QGraphicsSceneMouseEvent *event){
     if(selectAble){
-        selected = ! selected;
+        selected = true;
         effPress->setEnabled(selected);
         if(selected)
             msg->cardPressed(no);

@@ -75,7 +75,7 @@ background-color:rgb(100, 100, 100);
      <pixmap resource="pic.qrc">:/gameui/pic/Title.png</pixmap>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="pushButtonExit">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -543,9 +543,9 @@ padding:5px;
     <widget class="QPushButton" name="pushButtonCloseCardM">
      <property name="geometry">
       <rect>
-       <x>220</x>
+       <x>240</x>
        <y>720</y>
-       <width>321</width>
+       <width>301</width>
        <height>71</height>
       </rect>
      </property>
@@ -562,6 +562,30 @@ background-color:rgb(100, 100, 100);
      </property>
      <property name="text">
       <string>Back To Menu</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonDiscardCard">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>720</y>
+       <width>201</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color:rgb(42, 42, 42);
+color:rgb(255, 234, 0);
+	font: 63 26pt &quot;URW Gothic L&quot;;
+	font-weight:bold;
+}
+QPushButton:hover {
+background-color:rgb(100, 100, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Discard</string>
      </property>
     </widget>
    </widget>
@@ -604,7 +628,7 @@ border:none;
       <string>Warning</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_7">
+    <widget class="QLabel" name="labelMsg">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -659,17 +683,309 @@ background-color:rgb(100, 100, 100);
      </property>
     </widget>
    </widget>
+   <widget class="QWidget" name="widgetLevelSelect" native="true">
+    <property name="geometry">
+     <rect>
+      <x>115</x>
+      <y>260</y>
+      <width>431</width>
+      <height>551</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:rgba(0, 0, 0, 200)</string>
+    </property>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>301</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">	font: 63 26pt &quot;URW Gothic L&quot;;
+	font-weight:bold;
+color:rgb(255, 234, 0);
+background:rgb(0,0,0,0);
+border:none;
+</string>
+     </property>
+     <property name="text">
+      <string>Choose Level </string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonEasy">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>391</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color:rgb(42, 42, 42);
+	color: rgb(94, 255, 19);
+	font: 63 26pt &quot;URW Gothic L&quot;;
+	font-weight:bold;
+}
+QPushButton:hover {
+background-color:rgb(100, 100, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Easy       x 3</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_stone1">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>113</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:rgba(0,0,0,0)
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonNormal">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>190</y>
+       <width>391</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color:rgb(42, 42, 42);
+color:rgb(255, 234, 0);
+	font: 63 26pt &quot;URW Gothic L&quot;;
+	font-weight:bold;
+color:rgb(33, 203, 255);
+}
+QPushButton:hover {
+background-color:rgb(100, 100, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Normal       x 4</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonHard">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>280</y>
+       <width>391</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color:rgb(42, 42, 42);
+color:rgb(255, 25, 75);
+	font: 63 26pt &quot;URW Gothic L&quot;;
+	font-weight:bold;
+}
+QPushButton:hover {
+background-color:rgb(100, 100, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Hard       x 5</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonCrazy">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>370</y>
+       <width>391</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color:rgb(42, 42, 42);
+color:rgb(240, 20, 255);
+	font: 63 26pt &quot;URW Gothic L&quot;;
+	font-weight:bold;
+}
+QPushButton:hover {
+background-color:rgb(100, 100, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Crazy       x 8</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_stone2">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>213</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:rgba(0,0,0,0)
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_stone3">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>303</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:rgba(0,0,0,0)
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_stone4">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>393</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:rgba(0,0,0,0)
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_15">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>43</y>
+       <width>301</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="whatsThis">
+      <string notr="true"/>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">	font: 63 15pt &quot;URW Gothic L&quot;;
+	font-weight:bold;
+color:rgb(255, 234, 0);
+background:rgb(0,0,0,0);
+border:none;
+</string>
+     </property>
+     <property name="text">
+      <string>Get       if you win</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_stone0">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>55</y>
+       <width>30</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:rgba(0,0,0,0)
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonCloseLevelSelect">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>460</y>
+       <width>391</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color:rgb(42, 42, 42);
+color:rgb(255, 234, 0);
+	font: 63 26pt &quot;URW Gothic L&quot;;
+	font-weight:bold;
+}
+QPushButton:hover {
+background-color:rgb(100, 100, 100);
+}</string>
+     </property>
+     <property name="text">
+      <string>Ok</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButtonHidden">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>550</y>
+      <width>80</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:rgba(200,0,0,0);
+border:1pt soild black;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>label_2</zorder>
    <zorder>pushButton</zorder>
    <zorder>label</zorder>
-   <zorder>pushButton_4</zorder>
+   <zorder>pushButtonExit</zorder>
    <zorder>pushButton_2</zorder>
    <zorder>pushButton_3</zorder>
    <zorder>labelStone</zorder>
    <zorder>label_3</zorder>
    <zorder>widgetDrawCard</zorder>
    <zorder>widgetCardM</zorder>
+   <zorder>widgetLevelSelect</zorder>
    <zorder>widgetMsgBox</zorder>
+   <zorder>pushButtonHidden</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

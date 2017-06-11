@@ -5,7 +5,7 @@
 
 
 
-game::game(QWidget *parent, QVector<CardDeckItem *>&_myCardDeck) :
+game::game(QWidget *parent, QVector<CardDeckItem *>&_myCardDeck, int _difficulty) :
     QWidget(parent),
     myCardDeck(&_myCardDeck),
     ui(new Ui::game)
@@ -22,8 +22,30 @@ game::game(QWidget *parent, QVector<CardDeckItem *>&_myCardDeck) :
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-
-
+    // difficulty
+    difficulty = _difficulty;
+    switch(difficulty){
+    case 0:
+        computerLevel = 3;
+        computerManaIncSpd = GD::MANA_INCRE_SPEED;
+        awardStone = 3;
+    break;
+    case 1:
+        computerLevel = 5;
+        computerManaIncSpd = GD::MANA_INCRE_SPEED*1.1;
+        awardStone = 4;
+    break;
+    case 2:
+        computerLevel = 8;
+        computerManaIncSpd = GD::MANA_INCRE_SPEED*1.3;
+        awardStone = 5;
+    break;
+    case 3:
+        computerLevel = 10;
+        computerManaIncSpd = GD::MANA_INCRE_SPEED*1.5;
+        awardStone = 8;
+    break;
+    }
 
     //process gamedata
     gd = new gamedata();
@@ -56,7 +78,7 @@ game::game(QWidget *parent, QVector<CardDeckItem *>&_myCardDeck) :
         // set no
         RCards.last()->no = i;
         // set level
-        RCards.last()->level = 8;
+        RCards.last()->level = computerLevel;
 
         BCards.append(new Card(gd->datas[0]->cardPixmaps,true,gd->datas[0]->minionDatas));
         BCards.last()->setPos(GD::BCARD_POS[i]);
@@ -195,7 +217,7 @@ void game::timerTicker(){
 
      //qDebug() << "setMana";
     if(RMana<=10){
-        RMana+=GD::MANA_INCRE_SPEED;
+        RMana+=computerManaIncSpd;
         RManaBar->setMana(RMana);
     }
     if(BMana<=10){
@@ -344,7 +366,7 @@ void game::computerPutMinionForTimer1(){
     }
     if(RMana>putCard->manaNeed){
         RMana-=putCard->manaNeed;
-        putMinionDown(0,putCard->index,pt.toPoint().x(),pt.toPoint().y(),0,8);
+        putMinionDown(0,putCard->index,pt.toPoint().x(),pt.toPoint().y(),0,computerLevel);
         giveNewCard(0,maxPos);
         waitingMana = false;
     }
@@ -568,11 +590,15 @@ int game::giveARandomCardFromDeck(int side){
 //Card Pressed Slot
 void game::cardPressed(int no){
 
-    if(choosedCard>-1){
+
+    if(choosedCard>-1&&choosedCard!=no){
         BCards[choosedCard]->setSel(false);
     }
     choosedCard = no;
-
+    //if magic
+    if((myCardDeck->at(BCards[choosedCard]->indexInCardDeck)->id)>7){
+        pressedScene(1,302);
+    }
 }
 
 //End Game
@@ -628,13 +654,16 @@ void game::endGame(){
             player2.setMedia(QUrl("qrc:/snd/sound/lose_bgm.mp3"));
             connect(timeline,SIGNAL(finished()),&loseSpeech,SLOT(play()));
             ui->label_2->setPixmap(QPixmap(":/gameui/pic/Loser.png"));
+            awardStone = 0;
             break;
         case 2:
             player2.setMedia(QUrl("qrc:/snd/sound/tie_bgm.mp3"));
             ui->label_2->setPixmap(QPixmap(":/gameui/pic/Tie.png"));
+            awardStone = 1;
             break;
 
     }
+    ui->labelStoneNumber->setText(QString("X %1").arg(awardStone));
     player2.setVolume(0);
     player2.play();
 

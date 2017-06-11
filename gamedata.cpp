@@ -62,10 +62,13 @@ gamedata::gamedata(){
     m->help = "Help me hold ten seconds";
     m = current->newMinion("manaCan");
     m->setManaNeed(1);
+    m->help = "Fill your Mana, and your wounded heart";
     m = current->newMinion("thunder");
     m->setManaNeed(5);
+    m->help = "Bad weather condensed out, bombing your enemies with 999 damage";
     m = current->newMinion("splitbody");
     m->setManaNeed(6);
+    m->help = "All the minion cloned, blowing the reversal of the horn";
 
     //load card-logo pixmaps
     current->loadCardPixmaps(":/pic/type0/logo/card_test_logo_",".png",0,10,2);

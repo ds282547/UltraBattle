@@ -101,7 +101,12 @@ public:
 
     QGraphicsBlurEffect widgetEffect;
 
-    explicit game(QWidget *parent, QVector<CardDeckItem *> &_myCardDeck);
+    explicit game(QWidget *parent, QVector<CardDeckItem *> &_myCardDeck, int _difficulty);
+    int difficulty;
+    int computerLevel;
+    int awardStone;
+    qreal computerManaIncSpd;
+
     ~game();
     // carddeck
     QVector<CardDeckItem*>* myCardDeck;

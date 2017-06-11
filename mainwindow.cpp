@@ -26,8 +26,9 @@ MainWindow::~MainWindow()
 }
 void MainWindow::remake(){
     init();
+    useMagicStone(-(gam->awardStone));
 }
-bool MainWindow:: useMagicStone(int n){
+bool MainWindow::useMagicStone(int n){
     if(magicStone-n<0){
         ui->labelStone->setText(QString("%1").arg(magicStone));
         return false;
@@ -37,15 +38,26 @@ bool MainWindow:: useMagicStone(int n){
         return true;
     }
 }
+void MainWindow::msgbox(QString msg){
+    ui->widgetMsgBox->setVisible(true);
+    ui->labelMsg->setText(msg);
+}
 
 void MainWindow::init(){
     qsrand(QTime::currentTime().msec());
 
     ui->setupUi(this);
+
+    connect(ui->pushButtonHidden,SIGNAL(clicked(bool)),this,SLOT(hidden()));
     //magic stone
     magicStone = 14;
     ui->labelStone->setText(QString("%1").arg(magicStone));
-    ui->label_3->setPixmap(QPixmap(":/gameui/pic/stone.png").scaled(35,35,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+    ui->label_3->setPixmap(QPixmap(":/gameui/pic/stone.png").scaled(30,30,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+    ui->label_stone0->setPixmap(QPixmap(":/gameui/pic/stone.png").scaled(35,35,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+    ui->label_stone1->setPixmap(QPixmap(":/gameui/pic/stone.png").scaled(35,35,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+    ui->label_stone2->setPixmap(QPixmap(":/gameui/pic/stone.png").scaled(35,35,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+    ui->label_stone3->setPixmap(QPixmap(":/gameui/pic/stone.png").scaled(35,35,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+    ui->label_stone4->setPixmap(QPixmap(":/gameui/pic/stone.png").scaled(35,35,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
     ui->widgetMsgBox->setVisible(false);
 
     connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(StartClick()));
@@ -54,6 +66,7 @@ void MainWindow::init(){
     connect(ui->pushButton_3,SIGNAL(clicked()),this,SLOT(StartCardM()));
     connect(ui->pushButtonCloseCardM,SIGNAL(clicked()),this,SLOT(CloseCardM()));
     connect(ui->pushButtonCloseMsgBox,SIGNAL(clicked()),this,SLOT(CloseMsgBox()));
+    connect(ui->pushButtonExit,SIGNAL(clicked()),this,SLOT(Exit()));
     // draw card
     drawScene = new QGraphicsScene(this);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -86,6 +99,12 @@ void MainWindow::init(){
     ui->widgetDrawCard->setVisible(false);
 
     // card manager
+    connect(ui->pushButtonCloseLevelSelect,SIGNAL(clicked()),this,SLOT(CloseLevelSelect()));
+    connect(ui->pushButtonEasy,SIGNAL(clicked()),this,SLOT(StartEasyGame()));
+    connect(ui->pushButtonNormal,SIGNAL(clicked()),this,SLOT(StartNormalGame()));
+    connect(ui->pushButtonHard,SIGNAL(clicked()),this,SLOT(StartHardGame()));
+    connect(ui->pushButtonCrazy,SIGNAL(clicked()),this,SLOT(StartCrazyGame()));
+    connect(ui->pushButtonDiscardCard,SIGNAL(clicked()),this,SLOT(DiscardCard()));
 
     CMScene = new QGraphicsScene(this);
     ui->graphicsViewCardM->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -94,6 +113,9 @@ void MainWindow::init(){
     ui->graphicsViewCardM->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsViewCardM->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     ui->widgetCardM->setVisible(false);
+
+    // level
+    ui->widgetLevelSelect->setVisible(false);
 }
 void MainWindow::updateCardManager(){
     //reset & clear
@@ -126,12 +148,42 @@ void MainWindow::updateCardManager(){
 
 void MainWindow::StartClick()
 {
-
-    gam=new game(this,myCardDeck);
+    ui->widgetLevelSelect->setVisible(true);
+}
+void MainWindow::Exit()
+{
+    this->close();
+}
+void MainWindow::CloseLevelSelect(){
+    ui->widgetLevelSelect->setVisible(false);
+}
+void MainWindow::StartEasyGame(){
+    gam=new game(this,myCardDeck,0);
     connect(gam,SIGNAL(endGameBackToMain()),this,SLOT(remake()));
     player.stop();
     this->setCentralWidget(gam);
 }
+void MainWindow::StartNormalGame(){
+    gam=new game(this,myCardDeck,1);
+    connect(gam,SIGNAL(endGameBackToMain()),this,SLOT(remake()));
+    player.stop();
+    this->setCentralWidget(gam);
+}
+void MainWindow::StartHardGame(){
+    gam=new game(this,myCardDeck,2);
+    connect(gam,SIGNAL(endGameBackToMain()),this,SLOT(remake()));
+    player.stop();
+    this->setCentralWidget(gam);
+}
+void MainWindow::StartCrazyGame(){
+    gam=new game(this,myCardDeck,3);
+    connect(gam,SIGNAL(endGameBackToMain()),this,SLOT(remake()));
+    player.stop();
+    this->setCentralWidget(gam);
+}
+
+
+
 void MainWindow::DrawCardPress(int x,int y){
     if(drawed)
         return;
@@ -200,7 +252,7 @@ void MainWindow::StartDrawCard(){
         ui->pushButtonDrawOk->setVisible(false);
         timer1->start();
     }else{
-        ui->widgetMsgBox->setVisible(true);
+        msgbox("You don't have enough stones, so you can't draw a card.");
     }
 }
 void MainWindow::SelectCardItem(int no){
@@ -215,10 +267,11 @@ void MainWindow::SelectCardItem(int no){
     ui->labelName->setText(str);
     ui->labelLevel->setText(QString("Level=%1").arg(i->level));
     ui->labelHelp->setText(gd.datas[0]->getMinion(i->id)->help);
+    ui->labelMananeed->setText(QString("ManaNeed ---"));
     if(i->id>7){
         ui->labelAttack->setText(QString("Attack ---"));
         ui->labelAttackrange->setText(QString("AttackRange ---"));
-        ui->labelMananeed->setText(QString("ManaNeed ---"));
+
         ui->labelMaxhp->setText(QString("MaxHP ---"));
 
     }else{
@@ -237,6 +290,24 @@ void MainWindow::StartCardM(){
 void MainWindow::CloseCardM(){
     ui->widgetCardM->setVisible(false);
 }
+void MainWindow::DiscardCard(){
+    if(myCardDeck.length()==5){
+        msgbox("You cannot have number of cards less than 5.");
+        return;
+    }
+    if(selectedCardItem>-1){
+        carditems.remove(selectedCardItem);
+        myCardDeck.remove(selectedCardItem);
+        updateCardManager();
+    }
+    SelectCardItem(0);
+    carditems.first()->Select();
+
+}
+void MainWindow::hidden(){
+    useMagicStone(-40);
+}
+
 void MainWindow::CloseMsgBox(){
     ui->widgetMsgBox->setVisible(false);
 }

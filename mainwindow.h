@@ -35,6 +35,7 @@ public:
     ~MainWindow();
 public slots:
     void StartClick();
+    void Exit();
     void remake();
     void DrawCardPress(int x,int y);
     void DrawCardMove(int x,int y);
@@ -46,13 +47,20 @@ public slots:
     void CloseCardM();
     void StartCardM();
     void CloseMsgBox();
+    void CloseLevelSelect();
+    void StartEasyGame();
+    void StartNormalGame();
+    void StartHardGame();
+    void StartCrazyGame();
+    void DiscardCard();
+    void hidden();
 private:
     Ui::MainWindow *ui;
 
     game *gam;
     int magicStone;
     void init();
-
+    void msgbox(QString msg);
     bool useMagicStone(int n);
     //draw card
     QGraphicsScene *drawScene;
